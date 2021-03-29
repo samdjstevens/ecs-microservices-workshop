@@ -7,7 +7,7 @@ slug: /creating-the-vpc
 
 ## What is a VPC?
 
-A Virtual Private Network (VPC) is a **logically isolated** virtual network, dedicated to your AWS account. With a VPC, you can specify the I.P. addresses the network should use, and place AWS resources you create (e.g. EC2 instances) within it.
+A Virtual Private Network (VPC) is a **logically isolated** virtual network, dedicated to your AWS account. With a VPC, you can specify the I.P. addresses the network should use, and place AWS resources you create (e.g. EC2 instances, RDS databases, etc) within it.
 
 ## What are subnets?
 
@@ -74,5 +74,38 @@ The following resources will have been created and configured in your AWS accoun
 - Two private subnets, each in a different Availability Zone.
 - A NAT Gateway for each private subnet.
 - Routes added to the NAT Gateways in each of the two private subnet's route tables.
+
+
+## Creating a bastion host
+
+We've created the VPC, which contains two private subnets. Later, when we deploy resources into these subnets, we won't be able to reach them from outside of the VPC (from our local machines). When we're poking around and testing some of the things we deploy later, we will need to have an instance in a *public* subnet, from which we will be able to connect to resources in the private subnets.
+
+An instance used in this way is called a *bastion* or *jump* host. We will quickly create one now so we can use it when we need to later.
+
+:::note Note
+This bastion is not prodction grade. Real bastion hosts will be security hardened.
+:::
+
+```javascript title="lib/ecs-microservices-stack.ts" {13-16}
+import * as cdk from '@aws-cdk/core';
+import * as ec2 from "@aws-cdk/aws-ec2";
+
+export class EcsMicroservicesStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    const vpc = new ec2.Vpc(this, 'ClusterVpc', {
+        cidr: '10.0.0.0/16',
+        maxAzs: 2
+    })
+
+    // Create a bastion EC2 instance we can use to hit private I.P addresses
+    const bastion = new ec2.BastionHostLinux(this, 'Bastion', {
+      vpc
+    })
+
+  }
+}
+```
 
 Now the VPC is created, we are ready to continue on to creating the ECS Cluster, in which the services will later run.

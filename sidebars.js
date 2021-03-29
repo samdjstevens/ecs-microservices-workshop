@@ -1,12 +1,16 @@
 module.exports = {
   someSidebar: {
-    Docusaurus: [
-      // 'introduction', - in this intro, stress about not copy pasting and actually writing it out.
+    Guide: [
+      'introduction',
+      // pre-requiosites - cli tools, etc
       'first-stack', 
-      // 'project-description',
+      'project-description',
       'vpc', 
-      'cluster'
-    ],
-    Features: ['mdx'],
+      'cluster',
+      'first-service',
+      'servicediscovery'
+      // web nodejs service + public urls etc
+      // summary - testing? custom constructs?
+    ]
   },
 };
