@@ -39,7 +39,35 @@ Your workspace is now ready to start exploring your stack.
 
 ### Exploring the project
 
-[TODO]
+Open up the directory in your editor and take a look at the `lib/my-first-stack-stack.ts` file:
+
+```javascript
+import * as cdk from '@aws-cdk/core';
+
+export class MyFirstStackStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    // The code that defines your stack goes here
+  }
+}
+```
+
+This is where the stack for your CDK project is defined. In here you will place the code which describes the AWS resources you want to deploy as part of your stack.
+
+Take a look at the `bin/my-first-stack.ts` file also:
+
+```bash
+#!/usr/bin/env node
+import 'source-map-support/register';
+import * as cdk from '@aws-cdk/core';
+import { MyFirstStackStack } from '../lib/my-first-stack-stack';
+
+const app = new cdk.App();
+new MyFirstStackStack(app, 'MyFirstStackStack');
+```
+
+This is the entrypoint for your CDK project, and loads/executes the stack described in `lib/my-first-stack-stack.ts`.
 
 ## Creating an EC2 instance
 
@@ -48,7 +76,7 @@ Let's create an EC2 instance with CDK. First we need to add the `@aws-cdk/aws-ec
 Stop the `npm run watch` command and run the following command: 
 
 ```bash
-npm install @aws-cdk/aws-ec2@1.49.1 --save && npm run watch
+npm install @aws-cdk/aws-ec2 --save && npm run watch
 ```
 
 Now add the highlighted lines below to the stack in `lib/my-first-stack-stack.ts`:
@@ -201,4 +229,4 @@ Are you sure you want to delete: MyFirstStackStack (y/n)?
 
 Type `y` and press enter to confirm, and then wait whilst the stack is torn down. Once the process is finished, the EC2 instance will have been terminated.
 
-Now that you have successfully created and destroyed your first stack, we are ready to begin working on our ECS Microservices Stack.
+Now that you have successfully created and destroyed your first stack, we are ready to begin working on our real application's stack.

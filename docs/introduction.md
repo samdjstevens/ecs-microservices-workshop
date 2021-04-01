@@ -7,31 +7,31 @@ slug: /introduction
 
 This is a guide that aims to introduce the AWS CDK by showing how it can be used to create and deploy the required infrastructure for a simple microservice based application. As well as introducing CDK, it will also introduce the basic concepts and features of a few AWS services, including **VPCs**, **Elastic Container Service**, **AWS Cloud Map**, and **Route 53**.
 
-**Warning**: Following this guide will most-likely incur some cost in your AWS account.
+:::caution
+Following this guide will most-likely incur some cost in your AWS account.
+:::
 
 ### What are we going to build?
 
-At the end of this workshop we will have built and deployed the infrastructure and code required for an online translation webapp, which (some would say labouredly) uses a simple service orientated architecture. 
+At the end of this guide we will have built and deployed the infrastructure required for an online translation website, which (some would say labouredly) uses a simple service orientated architecture. 
 
-The application will allow users to translate text they supply from the source and target languages of their choosing.
+The application will let users translate text they supply from the source and target languages of their choosing via a simple UI.
 
 ### Who is this workshop for?
 
-This workshop is for beginners to CDK/Infrastructure-as-Code who want to learn how to use it to set up a complex infratructure on AWS. No prior experience of AWS is required, but some familiarilty will be helpful.
+This workshop is for beginners to CDK/Infrastructure-as-Code who want to learn how to use it to set up a complex infratructure on AWS. No prior experience of AWS is required, but some familiarity will be helpful.
 
 This workshop is also for people interested in learning about some of the basic principles of Service Orientated Architecture (SOA).
 
 
 ### A note on how to work through this workshop
 
-The CDK code in this workshop is often quite terse - and sometimes mysterious - accomplishing a lot in a small amount of code. This is one of CDK's advantages over other IaC solutions, but can sometimes make it less obvious what is actually happening.
+The CDK code in this workshop is often quite terse, accomplishing a lot in a small amount of code. This is one of CDK's advantages over other IaC solutions, but can sometimes make it less obvious what is actually happening.
 
 In each section I have tried to explain a bit about the services being used, what resources are actually being created, and how they work together. For this reason, I don't recommend that you simply rush through copy pasting the CDK code unless you have already been introduced to the services/topics within.
 
-Speaking of copy and pasting the code examples, I don't recommend that you do this either. If you use an editor like VS Code, there are great CDK plugins which make writing CDK very easy, with features such as autocomplete and documentation showing, and will often help you find the property/method you are after without Googling.
 
-
-## Pre-requisites
+## Prerequisites
 
 ### AWS account & user
 

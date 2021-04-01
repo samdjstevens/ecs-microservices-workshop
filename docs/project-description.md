@@ -6,6 +6,8 @@ slug: /project-description
 ---
 
 [TODO]
+- What the app does
+- Architecture diagram of finished solution
 
 ## Creating the CDK project
 
@@ -15,7 +17,7 @@ Begin by creating a new CDK project for the application:
 mkdir translatr-cdk && cd translatr-cdk
 ```
 
-Next, initialise the CDK project with the following command:
+Initialise the CDK project with the following command:
 
 ```bash
 cdk init app --language typescript
