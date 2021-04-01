@@ -9,6 +9,8 @@ slug: /project-description
 - What the app does
 - Architecture diagram of finished solution
 
+![Architecture diagram of what we will build](/img/architecture-diagram.png)
+
 ## Creating the CDK project
 
 Begin by creating a new CDK project for the application:
