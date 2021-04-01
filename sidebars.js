@@ -8,9 +8,11 @@ module.exports = {
       'vpc', 
       'cluster',
       'first-service',
-      'servicediscovery'
-      // web nodejs service + public urls etc
-      // summary - testing? custom constructs?
+      'servicediscovery',
+      'frontend-service',
+      'writing-constructs',
+      'testing',
+      'conclusion'
     ]
   },
 };
