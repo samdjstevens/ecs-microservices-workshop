@@ -7,6 +7,8 @@ slug: /introduction
 
 This is a guide that aims to introduce the AWS CDK by showing how it can be used to create and deploy the required infrastructure for a simple microservice based application. As well as introducing CDK, it will also introduce the basic concepts and features of a few AWS services, including **VPCs**, **Elastic Container Service**, **AWS Cloud Map**, and **Route 53**.
 
+**Warning**: Following this guide will most-likely incur some cost in your AWS account.
+
 ### What are we going to build?
 
 At the end of this workshop we will have built and deployed the infrastructure and code required for an online translation webapp, which (some would say labouredly) uses a simple service orientated architecture. 
@@ -29,18 +31,45 @@ In each section I have tried to explain a bit about the services being used, wha
 Speaking of copy and pasting the code examples, I don't recommend that you do this either. If you use an editor like VS Code, there are great CDK plugins which make writing CDK very easy, with features such as autocomplete and documentation showing, and will often help you find the property/method you are after without Googling.
 
 
-## Pre-Requisites
-[TODO]
+## Pre-requisites
 
-- AWS account with access key/secret
-- NodeJS
-- CDK
+### AWS account & user
 
-https://cdkworkshop.com/15-prerequisites.html?
+An AWS user with appropriate permissions and an access key & secret are needed to configure the AWS CLI.
 
+
+### AWS CLI
+
+Install the AWS CLI, which enables you to interact with with AWS from the CLI.
+
+- [Installing on Linux/macOS/Unix](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
+- [Installing on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html#install-msi-on-windows)
+
+
+### nodejs
+
+AWS CDK relies on nodejs >= v10.3.0. See the [nodejs](https://nodejs.org/en/) website for instructions on installation.
+
+### AWS CDK
+
+Install the CDK CLI tool by running:
+
+```bash
+npm install -g aws-cdk
+```
+
+Check it is successfully installed by running:
+
+```bash
+cdk --version
+```
 
 ## Setting up environment
-[TODO]
-- configuring aws cli
+
+Make sure the AWS CLI is configured by running:
+
+```bash
+aws configure
+```
 
 Once you're all set up, continue on to My First Stack, where we will build our very first CDK stack.

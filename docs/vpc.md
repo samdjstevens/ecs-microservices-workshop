@@ -82,8 +82,8 @@ We've created the VPC, which contains two private subnets. Later, when we deploy
 
 An instance used in this way is called a *bastion* or *jump* host. We will quickly create one now so we can use it when we need to later.
 
-:::note Note
-This bastion is not prodction grade. Real bastion hosts will be security hardened.
+:::note Security note
+A real, production-grade bastion host would be security-hardened to protect against un-authorised use. This is just for demo purposes.
 :::
 
 ```javascript title="lib/ecs-microservices-stack.ts" {13-16}
@@ -108,4 +108,4 @@ export class EcsMicroservicesStack extends cdk.Stack {
 }
 ```
 
-Now the VPC is created, we are ready to continue on to creating the ECS Cluster, in which the services will later run.
+Now the VPC is created, we are ready to continue on to creating the ECS Cluster, in which the app's services will run.

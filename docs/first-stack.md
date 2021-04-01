@@ -16,7 +16,8 @@ mkdir my-first-stack && cd my-first-stack
 ```
 
 Next, initialise the CDK project with the following command:
-```
+
+```bash
 cdk init app --language typescript
 ```
 
@@ -26,7 +27,8 @@ In a new terminal window, inside the same directory, run:
 npm run watch
 ```
 
-This will start watching the source for any changes and re-compile:
+This will start watching the project files for any changes and re-compile the typescript:
+
 ```bash
 [15:51:00] Starting compilation in watch mode...
 
@@ -43,11 +45,10 @@ Your workspace is now ready to start exploring your stack.
 
 Let's create an EC2 instance with CDK. First we need to add the `@aws-cdk/aws-ec2` dependency to our stack to bring in all the CDK constructs associated with EC2.
 
-Stop the `npm run watch` command and run the following commands: 
+Stop the `npm run watch` command and run the following command: 
 
 ```bash
-npm install @aws-cdk/aws-ec2@1.49.1 --save
-npm run watch
+npm install @aws-cdk/aws-ec2@1.49.1 --save && npm run watch
 ```
 
 Now add the highlighted lines below to the stack in `lib/my-first-stack-stack.ts`:
@@ -115,6 +116,8 @@ Security Group Changes
 └───┴─────────────────────────────────────────────┴─────┴────────────┴─────────────────┘
 (NOTE: There may be security-related changes not in this list. See https://github.com/aws/aws-cdk/issues/1299)
 ```
+
+This is CDK letting you know what security-impacting changes the deploy will make, including IAM statement/policy and Security Group changes. 
 
 Enter `y` to accept the changes and continue. This may take a few minutes, but once done you should see something like the below:
 

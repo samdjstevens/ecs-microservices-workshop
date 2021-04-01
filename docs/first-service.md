@@ -73,7 +73,7 @@ We then create a new `FargateService`, specifying the cluster it should go in, t
 
 ## Making a request to the service
 
-Our service should now be up and running, ready to handle translation requests - but how can we do a simple test to verify this?
+Our service should now be up and running, ready to handle translation requests - but how can we do a simple check to verify this?
 
 Open up the AWS console and head to the [ECS cluster dashboard](https://eu-west-1.console.aws.amazon.com/ecs/home?region=eu-west-1#/clusters) where you should see the cluster that you previously created. Click on the cluster and open the **Services** tab, find the **translate-api** service, and click on the link. 
 
