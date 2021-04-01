@@ -2,12 +2,12 @@ module.exports = {
   title: 'ECS Microservices with CDK',
   tagline: 'A workshop around using ECS with CDK.',
   url: 'https://samdjstevens.github.io',
-  baseUrl: '/',
+  baseUrl: '/ecs-microservices-workshop/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'samdjstevens',
-  projectName: '/ecs-microservices-workshop/',
+  projectName: 'ecs-microservices-workshop',
   themeConfig: {
     navbar: {
       title: 'ECS Microservices with CDK',
