@@ -160,6 +160,22 @@ new cdk.CfnOutput(this, 'ServerDNSNameOutput', {
 });
 ```
 
+Run `cdk diff` to see what changes are going to be deployed:
+
+```bash
+Stack MyFirstStackStack
+Resources
+[~] AWS::EC2::Instance MyInstance MyInstanceA12EC128 may be replaced
+ └─ [~] InstanceType (may cause replacement)
+     ├─ [-] t3.nano
+     └─ [+] t3.small
+
+Outputs
+[+] Output ServerDNSNameOutput ServerDNSNameOutput: {"Value":{"Fn::GetAtt":["MyInstanceA12EC128","PublicDnsName"]},"Export":{"Name":"ServerDNSName"}}
+```
+
+Note that the message says that the instance **may be replaced**. More on this below.
+
 Run `cdk deploy` to start the update of the deployed stack. Once it has completed deploying, you will see that the DNS name of the instance (which is a `t3.small`) is printed out.
 
 ```

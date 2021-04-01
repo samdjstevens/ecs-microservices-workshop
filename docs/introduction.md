@@ -64,7 +64,7 @@ Check it is successfully installed by running:
 cdk --version
 ```
 
-## Setting up environment
+## Setting up the environment
 
 Make sure the AWS CLI is configured by running:
 
