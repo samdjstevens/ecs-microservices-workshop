@@ -5,11 +5,11 @@ sidebar_label: Creating the ECS cluster
 slug: /creating-the-ecs-cluster
 ---
 
-Now we have the VPC created in which our application is going to live, we will create the "cluster" in which we deploy our services into via containers.
+The first thing we must do when using AWS ECS is to create a [cluster](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/clusters.html), which is a **logical grouping of tasks or services**. We will be using [AWS Fargate](https://aws.amazon.com/fargate/) to run our tasks, which means we don't need to worry about provisioning any EC2 instances for our cluster, as AWS will take care of this for us.
 
 ## Creating the ECS Cluster with CDK
 
-Change/add the highlighted lines below into the stack.
+To create the cluster, change/add the highlighted lines in the stack:
 
 ```javascript title="lib/translatr-cdk-stack.ts" {3,16-19}
 import { Stack, StackProps } from 'aws-cdk-lib';
@@ -36,6 +36,6 @@ export class TranslatrCdkStack extends Stack {
 }
 ```
 
-Run `cdk deploy` again to deploy the changes to the stack and create the cluster.
+Run `cdk deploy` again to deploy the changes to the stack and head back to the [AWS console](https://eu-west-1.console.aws.amazon.com/ecs/home?region=eu-west-1#/clusters), where you should now be able to see the cluster.
 
-Next, we will look at deploying the first service our app uses into the cluster.
+We are now ready to deploy the first service that our app is comprised of, into the cluster.
