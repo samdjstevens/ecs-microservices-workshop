@@ -6,6 +6,7 @@ module.exports = {
       'first-stack', 
       'project-description',
       'vpc', 
+      'ecs',
       'cluster',
       'first-service',
       'servicediscovery',

@@ -1,36 +1,23 @@
 ---
 id: cluster
-title: Creating the Cluster
-sidebar_label: Creating the Cluster
-slug: /cluster
+title: Creating the ECS cluster
+sidebar_label: Creating the ECS cluster
+slug: /creating-the-ecs-cluster
 ---
 
 Now we have the VPC created in which our application is going to live, we will create the "cluster" in which we deploy our services into via containers.
 
-## Using Elastic Container Service
+## Creating the ECS Cluster with CDK
 
-We are going to use **Elastic Container Service** to run the docker containers of the application. With ECS, we will be using the **Fargate** capacity provider, meaning we won't have to provision, manage, or even think about EC2 servers to run the containers on - this is all handled and asbtracted away by AWS.
+Change/add the highlighted lines below into the stack.
 
-In **ECS**, a cluster is *"a logical grouping of tasks or services"*. The services which run in a cluster are ran on underlying infrastructure by eithe EC2 or Fargate. TODO more on this.
+```javascript title="lib/translatr-cdk-stack.ts" {3,16-19}
+import { Stack, StackProps } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_ec2 as ec2, aws_ecs as ecs } from 'aws-cdk-lib';
 
-## Creating an ECS Cluster in CDK
-
-We must add another CDK dependency to our stack first before we can tell CDK to create the cluster. This time it's the `@aws-cdk/aws-ecs` package. Stop the `npm run watch` command and run the following commands: 
-
-```bash
-npm install @aws-cdk/aws-ecs --save
-npm run watch
-```
-
-Next, add the highlighted lines below into the stack.
-
-```javascript title="lib/ecs-microservices-stack.ts" {3,14-18}
-import * as cdk from '@aws-cdk/core';
-import * as ec2 from "@aws-cdk/aws-ec2";
-import * as ecs from "@aws-cdk/aws-ecs";
-
-export class EcsMicroservicesStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+export class TranslatrCdkStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
     const vpc = new ec2.Vpc(this, 'ClusterVpc', {
@@ -38,10 +25,11 @@ export class EcsMicroservicesStack extends cdk.Stack {
         maxAzs: 2
     })
 
-    // Create a new ECS cluster in the VPC
+    new ec2.BastionHostLinux(this, 'Bastion', { vpc })
+
     const cluster = new ecs.Cluster(this, 'EcsCluster', {
         vpc,
-        clusterName: 'translattr',
+        clusterName: 'translatr',
     })
 
   }
