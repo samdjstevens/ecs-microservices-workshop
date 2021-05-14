@@ -42,10 +42,11 @@ Your workspace is now ready to start exploring your stack.
 Open up the directory in your editor and take a look at the `lib/my-first-stack-stack.ts` file:
 
 ```javascript
-import * as cdk from '@aws-cdk/core';
+import { Stack, StackProps } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 
-export class MyFirstStackStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+export class MyFirstStackStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
     // The code that defines your stack goes here
@@ -60,33 +61,40 @@ Take a look at the `bin/my-first-stack.ts` file also:
 ```bash
 #!/usr/bin/env node
 import 'source-map-support/register';
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
 import { MyFirstStackStack } from '../lib/my-first-stack-stack';
 
 const app = new cdk.App();
-new MyFirstStackStack(app, 'MyFirstStackStack');
+new MyFirstStackStack(app, 'MyFirstStackStack', {
+  /* If you don't specify 'env', this stack will be environment-agnostic.
+   * Account/Region-dependent features and context lookups will not work,
+   * but a single synthesized template can be deployed anywhere. */
+
+  /* Uncomment the next line to specialize this stack for the AWS Account
+   * and Region that are implied by the current CLI configuration. */
+  // env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
+
+  /* Uncomment the next line if you know exactly what Account and Region you
+   * want to deploy the stack to. */
+  // env: { account: '123456789012', region: 'us-east-1' },
+
+  /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
+});
 ```
 
 This is the entrypoint for your CDK project, and loads/executes the stack described in `lib/my-first-stack-stack.ts`.
 
 ## Creating an EC2 instance
 
-Let's create an EC2 instance with CDK. First we need to add the `@aws-cdk/aws-ec2` dependency to our stack to bring in all the CDK constructs associated with EC2.
+Let's create an EC2 instance with CDK. Add the highlighted lines below to the stack in `lib/my-first-stack-stack.ts`:
 
-Stop the `npm run watch` command and run the following command: 
+```javascript title="lib/my-first-stack-stack.ts" {3,10-18}
+import { Stack, StackProps } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_ec2 as ec2 } from 'aws-cdk-lib';
 
-```bash
-npm install @aws-cdk/aws-ec2 --save && npm run watch
-```
-
-Now add the highlighted lines below to the stack in `lib/my-first-stack-stack.ts`:
-
-```javascript title="lib/my-first-stack-stack.ts" {2,9-17}
-import * as cdk from '@aws-cdk/core';
-import * as ec2 from "@aws-cdk/aws-ec2";
-
-export class MyFirstStackStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+export class MyFirstStackStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
     // The code that defines your stack goes here
@@ -106,17 +114,30 @@ export class MyFirstStackStack extends cdk.Stack {
 
 ### Setting the account and region for the stack
 
-For this particular stack, we need to tell CDK which AWS account and region we are deploying to. Open up the `bin/my-first-stack.ts` file and make the changes highlighted below, replacing the placeholders with your AWS account ID and region which you wish to deploy to.
+For this particular stack, we need to tell CDK which AWS account and region we are deploying to. Open up the `bin/my-first-stack.ts` file and uncomment the highlighted line below. This will tell CDK to deploy to the AWS account and region as currently configured in the AWS CLI.
 
-```bash title="bin/my-first-stack.ts" {7-8}
+```bash title="bin/my-first-stack.ts" {14}
 #!/usr/bin/env node
 import 'source-map-support/register';
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
 import { MyFirstStackStack } from '../lib/my-first-stack-stack';
 
 const app = new cdk.App();
-const env = { account: '[YOUR-ACCOUNT-ID-HERE]', region: '[YOUR-PREFERRED-REGION-HERE]' };
-new MyFirstStackStack(app, 'MyFirstStackStack', { env });
+new MyFirstStackStack(app, 'MyFirstStackStack', {
+  /** If you don't specify 'env', this stack will be environment-agnostic.
+   * Account/Region-dependent features and context lookups will not work,
+   * but a single synthesized template can be deployed anywhere. */
+
+  /* Uncomment the next line to specialize this stack for the AWS Account
+   * and Region that are implied by the current CLI configuration. */
+  env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
+
+  /* Uncomment the next line if you know exactly what Account and Region you
+   * want to deploy the stack to. */
+  // env: { account: '123456789012', region: 'us-east-1' },
+
+  /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
+});
 ```
 
 :::note Why do we need to do this?
@@ -165,27 +186,59 @@ arn:aws:cloudformation:eu-west-1:[account-id]:stack/MyFirstStackStack/a70c6020-7
 After launching the instance we realise that we actually wanted a `t3.small` instance type. Update the type of the instance like so below:
 
 
-```javascript title="lib/my-first-stack-stack.ts" {3}
-const server = new ec2.Instance(this, 'MyInstance', {
-  vpc,
-  instanceType: new ec2.InstanceType('t3.small'),
-  machineImage: ec2.MachineImage.latestAmazonLinux()
-})
+```javascript title="lib/my-first-stack-stack.ts" {16}
+import { Stack, StackProps } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_ec2 as ec2 } from 'aws-cdk-lib';
+
+export class MyFirstStackStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props);
+
+    // The code that defines your stack goes here
+    const vpc = ec2.Vpc.fromLookup(this, 'DefaultVPC', {
+      isDefault: true
+    })
+
+    const server = new ec2.Instance(this, 'MyInstance', {
+      vpc,
+      instanceType: new ec2.InstanceType('t3.small'),
+      machineImage: ec2.MachineImage.latestAmazonLinux()
+    })
+
+  }
+}
 ```
 
-We also want to know the public DNS name of the instance without having to go into the EC2 console and looking it up. Add the highlighted lines below to have the DNS name be outputted in the CLI after the stack is updated:
+We also want to know the public DNS name of the instance without having to go into the EC2 console and looking it up. Change/add the highlighted lines below to have the DNS name be outputted in the CLI after the stack is updated:
 
-```javascript title="lib/my-first-stack-stack.ts" {7-10}
-const server = new ec2.Instance(this, 'MyInstance', {
-  vpc,
-  instanceType: new ec2.InstanceType('t3.small'),
-  machineImage: ec2.MachineImage.latestAmazonLinux()
-})
+```javascript title="lib/my-first-stack-stack.ts" {1,20-23}
+import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_ec2 as ec2 } from 'aws-cdk-lib';
 
-new cdk.CfnOutput(this, 'ServerDNSNameOutput', {
-  value: server.instancePublicDnsName,
-  exportName: 'ServerDNSName'
-});
+export class MyFirstStackStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props);
+
+    // The code that defines your stack goes here
+    const vpc = ec2.Vpc.fromLookup(this, 'DefaultVPC', {
+      isDefault: true
+    })
+
+    const server = new ec2.Instance(this, 'MyInstance', {
+      vpc,
+      instanceType: new ec2.InstanceType('t3.small'),
+      machineImage: ec2.MachineImage.latestAmazonLinux()
+    })
+
+    new CfnOutput(this, 'ServerDNSNameOutput', {
+      value: server.instancePublicDnsName,
+      exportName: 'ServerDNSName'
+    });
+
+  }
+}
 ```
 
 Run `cdk diff` to see what changes are going to be deployed:
@@ -202,8 +255,6 @@ Outputs
 [+] Output ServerDNSNameOutput ServerDNSNameOutput: {"Value":{"Fn::GetAtt":["MyInstanceA12EC128","PublicDnsName"]},"Export":{"Name":"ServerDNSName"}}
 ```
 
-Note that the message says that the instance **may be replaced**. More on this below.
-
 Run `cdk deploy` to start the update of the deployed stack. Once it has completed deploying, you will see that the DNS name of the instance (which is a `t3.small`) is printed out.
 
 ```
@@ -212,10 +263,6 @@ Run `cdk deploy` to start the update of the deployed stack. Once it has complete
 Outputs:
 MyFirstStackStack.ServerDNSNameOutput = ec2-18-203-102-161.eu-west-1.compute.amazonaws.com
 ```
-
-:::note Why was the first instance deleted and a new one created?
-You cannot change the instance type of an EC2 instance once it has been launched - to resize it you must launch another instance. CDK is aware of this and takes care of removing the old instance and creating the new one for you.
-:::
 
 ## Destroying the stack
 
