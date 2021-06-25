@@ -5,7 +5,7 @@ sidebar_label: Creating the ECS cluster
 slug: /creating-the-ecs-cluster
 ---
 
-The first thing we must do when using AWS ECS is to create a [cluster](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/clusters.html), which is a **logical grouping of tasks or services**. We will be using [AWS Fargate](https://aws.amazon.com/fargate/) to run our tasks, which means we don't need to worry about provisioning any EC2 instances for our cluster, as AWS will take care of this for us.
+The first thing we must do when using AWS ECS is to create a [cluster](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/clusters.html). We will be using [AWS Fargate](https://aws.amazon.com/fargate/) to run our tasks, which means we don't need to worry about provisioning any EC2 instances for our cluster, as AWS will take care of this for us.
 
 ## Creating the ECS Cluster with CDK
 
