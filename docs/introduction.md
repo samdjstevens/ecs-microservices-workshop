@@ -17,6 +17,8 @@ At the end of this guide we will have built and deployed the infrastructure requ
 
 The application will let users translate text they supply from the source and target languages of their choosing via a simple UI.
 
+![A screenshot of the frontend UI](/img/frontend-screenshot.png)
+
 ### Who is this workshop for?
 
 This workshop is for beginners to CDK/Infrastructure-as-Code who want to learn how to use it to set up a non-trivial infrastructure on AWS. No prior experience of AWS is required, but some familiarity will be helpful.
