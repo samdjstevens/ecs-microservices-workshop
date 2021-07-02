@@ -14,8 +14,16 @@ The frontend service is a simple [Express](https://expressjs.com/) based applica
 
 [Click here](https://github.com/samdjstevens/ecs-microservices-frontend) to view the source code of the service on GitHub.
 
-## Adding the service with CDK
+### Our Requirements
 
+Unlike the backend translate-api service, we want this service to be **publically available** so that users can reach and interact with the UI via the browser. This means that we will need an [Application Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) in our public subnets which will route traffic to the instances of our service. We also need to make sure that the security groups are created and applied to ensure traffic from the internet to the load balancer is allowed, as well as traffic from the load balancer to the service instances.
+
+
+### Adding the service with CDK
+
+We can create all the required pieces needed to deploy this service by making use of the `ApplicationLoadBalancedFargateService` construct from the [ecs-patterns](https://docs.aws.amazon.com/cdk/api/latest/docs/aws-ecs-patterns-readme.html) module.
+
+Add/change the highlighted lines below in the stack:
 
 ```javascript title="lib/translatr-cdk-stack.ts" {1,3,22-37}
 import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
