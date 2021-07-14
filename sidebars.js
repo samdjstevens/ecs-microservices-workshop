@@ -2,7 +2,6 @@ module.exports = {
   someSidebar: {
     Guide: [
       'introduction',
-      // pre-requiosites - cli tools, etc
       'first-stack', 
       'project-description',
       'vpc', 
@@ -12,7 +11,7 @@ module.exports = {
       'servicediscovery',
       'frontend-service',
       'writing-constructs',
-      'testing',
+      // 'testing',
       'conclusion'
     ]
   },
