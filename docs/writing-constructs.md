@@ -8,7 +8,7 @@ slug: /writing-constructs
 
 [Constructs](https://docs.aws.amazon.com/cdk/latest/guide/constructs.html) are the "basic building blocks of CDK apps" - they represent a "cloud component", be it a single resource like an [EC2 instance](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-ec2.Instance.html) or an [S3 bucket](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-s3.Bucket.html) - or a higher level component consisting of several AWS resources all working together.
 
-In this workshop we've used lots of different constructs, ranging from simple single resource components, to very high level.
+In this workshop we've used lots of different constructs, ranging from simple single resource components, to very high level ones that create many resources.
 
 When [creating the frontend service](frontend-service.md), we used the `ApplicationLoadBalancedFargateService` construct from the `ecs-patterns` module. This construct creates all the AWS resources needed for a publically available, load balanced Fargate service - the ECS task definition and service, the Application Load Balancer, and all the other various bits and pieces needed.
 
@@ -20,11 +20,9 @@ Constructs can also be used across an organisation to ensure that components are
 
 We will extract the CDK we wrote to create the backend service into its own `BackendService` construct, so that it is reusable.
 
-We, and other developers, can then use this to bring up a backend service, just specifying what image to use etc.
+We, and other developers, can then use this to bring up a backend service, where we just need to specify the things that are unique - the container image, the service name, etc.
 
-
-
-### Create the Construct file
+### Create the Construct
 
 Create a new file called `lib/backend-service.ts` in the stack project, and place the following code inside:
 
@@ -42,7 +40,7 @@ export class BackendService extends Construct {
 }
 ```
 
-This is the bare bones skeleton for a custom construct. At the top we define the schema for the properties/configuration for the construct (currently empty) and below we define the resources that the construct will create for us.
+This is the bare bones skeleton for a construct. At the top we define the schema for the properties/configuration for the construct (currently empty) and below we define the resources that the construct will create for us.
 
 ### Defining construct properties
 
@@ -146,11 +144,14 @@ export class BackendService extends Construct {
 }
 ```
 
-We've made some tweaks here and there to the code to use the props of the construct, but it is pretty much the same. 
-TODO: highlight changes??
+We've made some tweaks here and there to the code to use the props of the construct, but it is pretty much the same.
 
 
 ### Retrieving data from constructs
+
+Sometimes we will want to retireve data or child constructs from constructs so that we can use them in the stack. For our stack, we have an output that shows the URL of the backend service. 
+
+Add the highlighted lines below to define a readonly property of the construct, which will expose the URL of the service being created.
 
 ```javascript title="lib/backend-service.ts"{7,25}
 import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
@@ -227,6 +228,4 @@ export class TranslatrCdkStack extends Stack {
 }
 ```
 
-Your stack is now using the construct!
-
-TODO: publishing?
+The stack is now using the `BackendService` construct!
