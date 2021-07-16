@@ -25,7 +25,7 @@ We can create all the required pieces needed to deploy this service by making us
 
 Add/change the highlighted lines below in the stack:
 
-```javascript title="lib/translatr-cdk-stack.ts" {1,3,22-37}
+```javascript title="lib/translatr-cdk-stack.ts" {1,3,21-36}
 import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { aws_ec2 as ec2, aws_ecs as ecs, aws_iam as iam, aws_servicediscovery as servicediscovery, aws_ecs_patterns as ecs_patterns } from 'aws-cdk-lib';
@@ -38,7 +38,6 @@ export class TranslatrCdkStack extends Stack {
 
     const service = new ecs.FargateService(this, 'TransateApiService', {
         cluster,
-        serviceName: 'translate-api',
         taskDefinition: translateApiTaskDefinition,
         desiredCount: 3,
         securityGroups: [appTaskDefinitionSecurityGroup],

@@ -82,7 +82,7 @@ These are all things that are **unique to our service** - everything else would 
 
 Now we can port the code over from our stack into the construct, making small changes here and there to use the properties provided by the user of the construct.
 
-```javascript title="lib/backend-service.ts"{17-55}
+```javascript title="lib/backend-service.ts"{17-53}
 import { Construct } from 'constructs';
 import { aws_ec2 as ec2, aws_ecs as ecs, aws_iam as iam } from 'aws-cdk-lib';
 
@@ -129,7 +129,6 @@ export class BackendService extends Construct {
     // Create the ECS service
     const service = new ecs.FargateService(this, id + '_Service', {
         cluster: props.cluster,
-        serviceName: props.serviceName,
         taskDefinition: taskDefinition,
         desiredCount: props.instances,
         securityGroups: [appTaskDefinitionSecurityGroup],
@@ -137,8 +136,6 @@ export class BackendService extends Construct {
             name: props.serviceName
         }
     })
-
-    this.serviceUrl = "http://" + service.cloudMapService!.serviceName + "." + service.cloudMapService!.namespace.namespaceName;
 
   }
 }
@@ -153,7 +150,7 @@ Sometimes we will want to retireve data or child constructs from constructs so t
 
 Add the highlighted lines below to define a readonly property of the construct, which will expose the URL of the service being created.
 
-```javascript title="lib/backend-service.ts"{7,25}
+```javascript title="lib/backend-service.ts"{7,24}
 import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
 
 ...
@@ -169,7 +166,6 @@ export class BackendService extends Construct {
         // Create the ECS service
         const service = new ecs.FargateService(this, id + '_Service', {
             cluster: props.cluster,
-            serviceName: props.serviceName,
             taskDefinition: translateApiTaskDefinition,
             desiredCount: props.instances,
             securityGroups: [appTaskDefinitionSecurityGroup],

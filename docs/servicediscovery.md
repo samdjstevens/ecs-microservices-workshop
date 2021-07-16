@@ -33,10 +33,10 @@ We will use DNS based service discovery on a private hosted zone (only resolvabl
 
 Change the below highlighted lines to the CDK stack:
 
-```javascript title="lib/translatr-cdk-stack.ts" {3,19-23,34-36}
+```javascript title="lib/translatr-cdk-stack.ts" {3,19-23,33-35}
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { aws_ec2 as ec2, aws_ecs as ecs, aws_iam as iam, aws_servicediscovery as servicediscovery } from 'aws-cdk-lib';
+import { aws_ec2 as ec2, aws_ecs as ecs, aws_iam as iam, aws_ecr as ecr, aws_servicediscovery as servicediscovery } from 'aws-cdk-lib';
 
 export class TranslatrCdkStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -63,7 +63,6 @@ export class TranslatrCdkStack extends Stack {
 
     const service = new ecs.FargateService(this, 'TransateApiService', {
         cluster,
-        serviceName: 'translate-api',
         taskDefinition: translateApiTaskDefinition,
         desiredCount: 3,
         securityGroups: [appTaskDefinitionSecurityGroup],

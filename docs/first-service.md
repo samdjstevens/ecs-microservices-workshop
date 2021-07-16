@@ -111,10 +111,10 @@ We have defined/created the task definition, and are now ready to create the ser
 
 Add the highlighted lines below to the stack:
 
-```javascript title="lib/translatr-cdk-stack.ts" {17-30}
+```javascript title="lib/translatr-cdk-stack.ts" {17-29}
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { aws_ec2 as ec2, aws_ecs as ecs, aws_iam as iam } from 'aws-cdk-lib';
+import { aws_ec2 as ec2, aws_ecs as ecs, aws_iam as iam, aws_ecr as ecr } from 'aws-cdk-lib';
 
 export class TranslatrCdkStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -137,7 +137,6 @@ export class TranslatrCdkStack extends Stack {
 
     const service = new ecs.FargateService(this, 'TransateApiService', {
         cluster,
-        serviceName: 'translate-api',
         taskDefinition: translateApiTaskDefinition,
         desiredCount: 3,
         securityGroups: [appTaskDefinitionSecurityGroup]
@@ -151,7 +150,7 @@ We start by creating a **Security Group** which is like a firewall that controls
 
 In the security group, we allow all incoming connections from **within the VPC** to port 80 on our service. This means that requests to the service from within the VPC will be allowed, whilst requetss from outside of it (if the service was publically available) would be rejected.
 
-We then create a new `FargateService`, specifying the cluster it should go in, the name, which task definition to use, how many instances of the task definition to run, and finally to use the security group we created.
+We then create a new `FargateService`, specifying the cluster it should go in, which task definition to use, how many instances of the task definition to run, and finally to use the security group we created.
 
 Run `cdk deploy` to deploy the changes to the stack and create the service.
 
