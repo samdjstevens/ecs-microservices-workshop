@@ -11,6 +11,11 @@ The second service is the **backend translate-api service** - a JSON API service
 
 We will start by deploying the **translate-api** service to the cluster first.
 
+:::note Note
+The docker images for the services used in this workshop have been pre-built and pushed to the AWS's container registry, ECR. The CDK we will write references the locations of these images when defining the infrastructure to run them. The source code of the services have been linked to if you wish to inspect them.
+:::
+
+
 ### How it works
 
 The translate-api service is a simple [Spring Boot](https://spring.io/projects/spring-boot) based application written in Java, that uses the AWS SDK to talk to the [Amazon Translate](https://aws.amazon.com/translate/) service. 

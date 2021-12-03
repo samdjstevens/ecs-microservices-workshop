@@ -5,9 +5,7 @@ sidebar_label: Translatr app
 slug: /project-description
 ---
 
-[TODO]
-- What the app does
-- Architecture diagram of finished solution
+In this workshop we will build a simple web-based translation application. It will be highly available, with our infrastructure deployed across two AZs, and use a service orientated architecture, comprising of a frontend service and a backend service.
 
 ![Architecture diagram of what we will build](/img/architecture-diagram.png)
 
