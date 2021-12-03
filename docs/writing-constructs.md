@@ -182,7 +182,7 @@ export class BackendService extends Construct {
 
 ### Using the construct in the stack
 
-We can now delete lines X-X in the stack and add the highlighted lines:
+We can now delete lines 28-68 (where we created the backend service components) in the stack and add the highlighted lines:
 
 ```javascript title="lib/translatr-cdk-stack.ts" {4,22-32}
 import { Stack, StackProps } from 'aws-cdk-lib';
